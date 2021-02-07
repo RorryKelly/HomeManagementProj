@@ -1,0 +1,15 @@
+<label>Username:</label>
+<input type="text" class="form-control" id="username" [(ngModel)]="userModel.username" #username="ngModel" required />
+<div *ngIf="username.invalid && username.touched" class="alert alert-danger">
+  <div *ngIf="username.errors.required">Username is required.</div>
+</div>
+<br />
+<label>Password:</label>
+<input type="text" class="form-control" id="password" [(ngModel)]="userModel.password" #password="ngModel" required/>
+<div *ngIf="password.invalid && password.touched" class="alert alert-danger">
+  <div *ngIf="password.errors.required">Password is required.</div>
+</div>
+<br />
+<button (click)="onLogin()" type="submit" [disabled]="username.invalid || password.invalid || !username.touched || !password.touched">Login</button>
+
+<button routerLink="/register">Register</button>

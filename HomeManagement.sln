@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeManagement", "HomeManagement\HomeManagement.csproj", "{AE8D6DEA-5AC4-4042-826E-BD3C208392C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeManagementTests", "HomeManagementTests\HomeManagementTests.csproj", "{A29EAB45-9207-46D1-BBB2-EEA2F3621DD2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE8D6DEA-5AC4-4042-826E-BD3C208392C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8D6DEA-5AC4-4042-826E-BD3C208392C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8D6DEA-5AC4-4042-826E-BD3C208392C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8D6DEA-5AC4-4042-826E-BD3C208392C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A29EAB45-9207-46D1-BBB2-EEA2F3621DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A29EAB45-9207-46D1-BBB2-EEA2F3621DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A29EAB45-9207-46D1-BBB2-EEA2F3621DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A29EAB45-9207-46D1-BBB2-EEA2F3621DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3FFAAE50-A893-445F-9ABB-756891AFAB26}
+	EndGlobalSection
+EndGlobal
