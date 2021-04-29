@@ -1,0 +1,66 @@
+<div class="card" (mouseenter)="savingHovered=true" (mouseleave)="savingHovered=false">
+  <div>
+    <div class="row">
+      <div class="col-10">
+        <h2 style="padding: 12.5px">Saving Goals</h2>
+      </div>
+      <div class="col-2" *ngIf="savingHovered">
+        <button class="btn-lg h-100 header-btn" style="float: right" (click)="open(goalCreate)"><span class="align-text-middle glyphicon glyphicon-plus"></span></button>
+      </div>
+    </div>
+    <hr style="margin: 5px" />
+  </div>
+  <div *ngIf="financeSheet">
+    <div class="card-body card-button" *ngFor="let Goal of financeSheet.SavingGoals; let hovered=false;">
+      <div (mouseenter)="hovered=true" (mouseleave)="hovered=false">
+        <div class="row">
+          <div class="col-8">
+            <h5 class="card-title">{{Goal.Name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">£{{Goal.Deposited}}/£{{Goal.Amount}}</h6>
+            <p class="card-text"> {{Goal.Description}} </p>
+          </div>
+          <div class="col-4" *ngIf="(hovered==true); let depositSelect=false;">
+            <div class="row" style="float: right" *ngIf="depositSelect!==true">
+              <button class="btn-lg h-100 header-btn m-2" style="float: right" (click)="depositSelect=true"><span class="align-text-middle glyphicon glyphicon-plus"></span></button>
+              <button class="btn-lg h-100 header-btn m-2" style="float: right" (click)="onGoalDelete(Goal.Id)"><span class="align-text-middle glyphicon glyphicon-trash"></span></button>
+            </div>
+            <div *ngIf="depositSelect==true">
+              <form (ngSubmit)="onDeposit(deposit, Goal.Id)" #deposit="ngForm">
+                <input type="number" name="amount" class="form-control" ngModel required>
+                <button type="submit" [disabled]="deposit.invalid" class="btn btn-outline-dark form-control">Deposit Amount</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+
+<ng-template #goalCreate let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create a New Savings Goal</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="onCreateGoal(newGoal); d('Submitted')" #newGoal="ngForm">
+    <div class="modal-body">
+      <label>Goal Name:</label><br />
+      <input name="name" class="form-control" ngModel required><br />
+
+      <label>Goal description:</label><br />
+      <input name="description" class="form-control" ngModel><br />
+
+      <label>Goal Amount:</label><br />
+      <input name="amount" class="form-control" ngModel required><br />
+
+      <label>Goal End Date:</label><br />
+      <input class="form-control" type="datetime-local" id="endDate" name="endDate" value="9999-01-01" ngModel required /><br />
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="newGoal.invalid" class="btn btn-outline-dark">Save</button>
+    </div>
+  </form>
+</ng-template>

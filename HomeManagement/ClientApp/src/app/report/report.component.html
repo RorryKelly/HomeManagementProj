@@ -1,0 +1,37 @@
+<div class="container">
+  <div *ngIf="report">
+    <h1>Finance Report</h1>
+    <h3>Date compiled: {{dateCompiled}}</h3>
+    <div class="row" style="padding-left: 15px">
+      <h3>Rating:</h3>
+      <div *ngFor="let e of [].constructor(report.rating)">
+        <span style="font-size: 25px" class="glyphicon glyphicon-star-empty"></span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <google-chart [title]="'Income streams %'" style="width: 100%" [type]="'PieChart'" [data]="incomeData"></google-chart>
+      </div>
+      <div class="col-6">
+        {{report.incomeString}}
+      </div>
+    </div> <br />
+    <div class="row">
+      <div class="col-6">
+        <google-chart [title]="'The amount being spent'" style="width: 100%" [columns]="expenditureColumns" [options]="expenditureOptions" [type]="'BarChart'" [data]="expenditureData"></google-chart>
+      </div>
+      <div class="col-6">
+        {{report.expenditureString}}
+      </div>
+    </div> <br />
+    <div class="row">
+      <div class="col-6">
+        <google-chart [title]="'Saving goals (by % completed)'" style="width: 100%" [type]="'BarChart'" [data]="goalData"></google-chart>
+      </div>
+      <div class="col-6">
+        {{report.goalString}}
+      </div>
+    </div>
+  </div>
+</div>

@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[4.15.2, )"
             },
+            "OpenCover": {
+              "target": "Package",
+              "version": "[4.7.922, )"
+            },
             "coverlet.collector": {
               "target": "Package",
               "version": "[1.2.0, )"
@@ -123,6 +127,14 @@
               "target": "Package",
               "version": "[5.2.7, )"
             },
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.12, )"
+            },
             "Microsoft.AspNetCore.Mvc.Cors": {
               "target": "Package",
               "version": "[1.1.2, )"
@@ -131,9 +143,17 @@
               "target": "Package",
               "version": "[3.1.8, )"
             },
+            "OpenCover": {
+              "target": "Package",
+              "version": "[4.7.922, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.2, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.8.0, )"
             }
           },
           "imports": [

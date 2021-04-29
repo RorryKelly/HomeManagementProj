@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,21 +10,36 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private cookieService: CookieService, private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
 
-  userModel = new User("please enter username", "please enter password");
-  onLogin() {
-    console.log("hello");
+  hasFailed = false;
+  errorMessage: string;
+
+  onLogin(login) {
+    let userModel = new User(login.controls.username.value, login.controls.password.value);
     let httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json' })
-    }
-    let json = JSON.stringify(this.userModel);
-    this.http.post("https://localhost:44386/api/login", JSON.stringify(json), httpOptions)
-      .subscribe();
+        'Content-Type': 'application/json'
+      }),
+      'responseType': 'text' as 'json'
+    };
+    let json = JSON.stringify(userModel);
+    this.http.post("https://localhost:44352/api/login", JSON.stringify(json), httpOptions)
+      .subscribe({
+        next: (x) => { this.saveToken(x); },
+        error: err => {
+          this.hasFailed = true;
+          this.errorMessage = err.error;
+        }
+      })
+  }
+
+  saveToken(token) {
+    localStorage.setItem("login", token);
+    this.router.navigate(['/home']);
   }
 }
 class User {

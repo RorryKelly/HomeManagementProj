@@ -1,0 +1,91 @@
+<div class="card" (mouseenter)="incomeHovered=true" (mouseleave)="incomeHovered=false">
+  <div>
+    <div class="row">
+      <div class="col-10">
+        <h2 style="padding: 12.5px">Incomes</h2>
+      </div>
+      <div class="col-2" *ngIf="incomeHovered==true">
+        <button class="btn-lg h-100 header-btn" style="float: right" (click)="open(incomeCreate)"><span class="glyphicon glyphicon-plus align-text-middle"></span></button>
+      </div>
+    </div>
+    <hr style="margin: 5px; margin-top: 0px" />
+  </div>
+  <div *ngIf="financeSheet">
+    <div class="card-body card-button" *ngFor="let Income of financeSheet.Incomes; let hovered=false;">
+      <div class="row" (mouseenter)="hovered=true" (mouseleave)="hovered=false">
+        <div class="col-8">
+          <h5 class="card-title">{{Income.Name}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">£{{Income.Amount}}</h6>
+          <p class="card-text">This income is a {{Income.Reoccurance}} occurance</p>
+        </div>
+        <div class="col-4 align-middle" *ngIf="hovered==true">
+          <div class="row align-middle" style="float: right">
+            <button class="btn-lg h-100 header-btn m-2" style="float: right" (click)="onIncomeDelete(Income.Id)"><span class="align-text-middle glyphicon glyphicon-trash"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />
+
+<ng-template #incomeCreate let-c="close" let-d="dismiss">
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create a New Income</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form (ngSubmit)="onCreateIncome(newIncome); d('Submitted')" #newIncome="ngForm">
+    <div class="modal-body">
+      <label>Income Name:</label><br />
+      <input name="name" class="form-control" ngModel required><br />
+
+      <label>Income Amount (£):</label><br />
+      <input name="amount" class="form-control" ngModel required><br />
+
+      <div *ngIf="reoccuranceOption !== 'One Time'">
+        <label>Pay Premptively? (Note: if enabled, the amount will be added to the balance immediately)</label>
+        <input type="checkbox" [checked]="preempt" (change)="preempt = !preempt" /><br />
+      </div>
+
+      <label>Income Type:</label><br />
+      <div class="dropdown w-100">
+        <button class="btn btn-light w-100">{{typeOption}}</button>
+        <div class="dropdown-content w-100">
+          <a class="dropdown-item" (click)="typeOption='Work'">Work</a>
+          <a class="dropdown-item" (click)="typeOption='Dividend'">Dividend</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="typeOption='Other'">Other</a>
+        </div>
+      </div> <br />
+      <div *ngIf="typeOption=='Other'">
+        <br />
+        <input name="typeOther" class="form-control" ngModel><br />
+      </div>
+
+      <label>Income Reoccurance:</label><br />
+      <div class="dropdown w-100">
+        <button class="btn btn-light w-100">{{reoccuranceOption}}</button>
+        <div class="dropdown-content w-100">
+          <a class="dropdown-item" (click)="reoccuranceOption='One Time'">One Time</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Hourly'">Hourly</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Bi-Daily'">Bidaily</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Daily'">Daily</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Bi-Weekly'">Biweekly</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Weekly'">Weekly</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Bi-Monthly'">Bimonthly</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Monthly'">Monthly</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Bi-Anually'">Bi-Anually</a>
+          <a class="dropdown-item" (click)="reoccuranceOption='Anually'">Anually</a>
+        </div>
+      </div><br />
+
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="newIncome.invalid || typeOption == 'Select A Type' || reoccuranceOption == 'Select A Reoccurance Type'" class="btn btn-outline-dark">Save</button>
+    </div>
+  </form>
+</ng-template>

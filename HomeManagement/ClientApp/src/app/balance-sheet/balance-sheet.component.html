@@ -1,0 +1,66 @@
+<div class="row" style="margin: 4px">
+  <div class="col-9" style="background-color: #ffffff;">
+    <div>
+      <div class="row" style="margin: 4px;">
+        <h1 *ngIf="financeSheet">{{financeSheet.Name}}</h1>
+        <button class="btn" (click)="open(addOwner)"><span class="glyphicon glyphicon-user"></span> <span class="glyphicon glyphicon-plus"></span></button>
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorMsg" style="text-align: center" role="alert">
+        {{errorMsg}}
+      </div>
+
+      <income-card [financeSheet]="financeSheet" [sheetId]="sheetId" (refreshEvent)="refresh()" (errorEvent)="errorMsg = $event"></income-card>
+      <expenditure-card [financeSheet]="financeSheet" [sheetId]="sheetId" (refreshEvent)="refresh()" (errorEvent)="errorMsg = $event"></expenditure-card>
+      <goal-card [financeSheet]="financeSheet" [sheetId]="sheetId" (refreshEvent)="refresh()" (errorEvent)="errorMsg = $event"></goal-card>
+
+    </div>
+  </div>
+  <div class="col-3"> <br/>
+
+    <div *ngIf="financeSheet">
+      <h1>Your Current Balance Is:</h1>
+      <h1 class="display-2 text-right mt-0" [ngStyle]="{'color' : (financeSheet.Balance >= 0) ? 'black' : 'red'}">£{{financeSheet.Balance}}</h1>
+      <br />
+      <button class="btn btn-lg btn-block btn-dark" (click)="onReportCreation()">CREATE NEW REPORT</button>
+    </div>
+
+  </div>
+</div>
+
+
+<ng-template #addOwner let-c="close" let-d="dismiss">
+
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add a new owner</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <form (ngSubmit)="onAddOwner(newOwner); d('Submitted')" #newOwner="ngForm">
+    <div class="modal-body">
+
+      <label>New Owner Username:</label><br />
+      <div class="input-group mb-3">
+        <input name="ownerName" class="form-control" ngModel>
+        <div class="input-group-append">
+          <button type="button" class="input-group-text" (click)="onUserSearch(newOwner)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button><br />
+        </div>
+      </div>
+      <div class="dropdown w-100" *ngIf="searchedUsersSelected == null">
+        <button class="btn btn-light w-100">Please Select User To Share With</button>
+        <div class="dropdown-content w-100">
+          <a class="dropdown-item" *ngFor="let User of searchedUsers" (click)="searchedUsersSelected = true; selectedUser = User">{{User.username}}</a>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" *ngIf="searchedUsersSelected !== null && searchedUsersSelected !== false;">
+        {{selectedUser.username}}
+      </button> <br />
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="searchedUsersSelected == null || searchedUsersSelected == false" class="btn btn-outline-dark">Add Owner</button>
+    </div>
+  </form>
+</ng-template>

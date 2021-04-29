@@ -1,16 +1,19 @@
-<form #reg="ngForm">
-  <label>Username:</label><br />
-  <input name="username" class="form-control" ngModel required><br />
-  <label>Password:</label><br />
-  <input name="password" type="password" class="form-control" ngModel required><br />
-  <label>Email:</label><br />
-  <input name="email" class="form-control" ngModel required><br />
-  <label>Phone Number: </label> <br />
-  <input name="phoneNumber" class="form-control" ngModel required><br />
-  <label>Age:</label><br />
-  <input name="age" class="form-control" ngModel required><br />
+<div class="container">
+  <form (ngSubmit)="register(reg.value)" #reg="ngForm">
+    <label>Username:</label><br />
+    <input name="username" class="form-control form-control-lg" ngModel required><br />
+    <label>Password:</label><br />
+    <input name="password" type="password" class="form-control form-control-lg" ngModel required><br />
+    <label>Email:</label><br />
+    <input name="email" class="form-control form-control-lg" ngModel required><br />
+    <label>Phone Number: </label> <br />
+    <input name="phoneNumber" class="form-control form-control-lg" ngModel required><br />
+    <label>Age:</label><br />
+    <input name="age" class="form-control form-control-lg" ngModel required><br />
 
-  <button [disabled]="reg.invalid">Register</button> <button>Back</button>
-</form>
-
-<p>{{reg.value | json}}</p>
+    <div class="text-center">
+      <button type="submit" [disabled]="reg.invalid" class="btn btn-outline-dark" style="font-size: 15px">Register</button>
+      <button type="button" routerLink="/" class="btn btn-outline-dark" style="font-size: 15px">Back</button>
+    </div>
+  </form>
+</div>

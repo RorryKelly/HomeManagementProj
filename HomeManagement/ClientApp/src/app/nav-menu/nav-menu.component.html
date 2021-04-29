@@ -1,24 +1,27 @@
 <header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">HomeManagement</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
-        [ngClass]="{ show: isExpanded }"
-      >
+  <nav class="navbar row navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="col-8">
+      <a class="navbar-brand" style=" font-size: 2em;" [routerLink]="['/']">
+        <div class="row">
+          <div>
+            <span class="h-100 p-4 pl-5 glyphicon glyphicon-home"></span>
+            Home Management
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="float-right col-4" style="text-align: end;" *ngIf="username">
+      <div class="dropdown w-100">
+        <button class="btn" style=" font-size: 2em;">
+          <span class="h-100 glyphicon glyphicon-menu-down"></span>
+          {{username}}
+          <span class="h-100 glyphicon glyphicon-user pr-5" style="font-size: 2rem"></span>
+        </button>
+        <div class="dropdown-content dropdown-menu-right" style="font-size: 10px;">
+          <a class="dropdown-item" [routerLink]="['/']">Sheet Selector</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" (click)="Logout()">Log Out</a>
+        </div>
       </div>
     </div>
   </nav>

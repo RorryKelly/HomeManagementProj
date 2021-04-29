@@ -1,0 +1,76 @@
+<app-init></app-init>
+
+<h2>Select A Finance Sheet</h2>
+
+<div class="alert alert-danger" *ngIf="sheetCreateError" style="text-align: center" role="alert">
+  {{sheetCreateError}}
+</div>
+
+<div class="text-center">
+  <button class="btn btn-lg btn-secondary w-75" (click)="open(content)">Create New</button>
+</div>
+
+<div class="row p-5">
+  <div class="container-fluid card col-4 clicked"
+       *ngFor="let financeSheet of financeSheets; let hovered=false;"
+       (mouseenter)="hovered=true" (mouseleave)="hovered=false">
+
+    <div class="card-body">
+      <div class="row">
+        <div class="col-11" routerLink="/financesheet/{{financeSheet.id}}">
+          <h5 class="card-title">
+            {{financeSheet.name}}
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted">
+            {{financeSheet.balance}}
+          </h6>
+        </div>
+
+        <div class="col-1" *ngIf="hovered==true">
+          <button class="float-right align-top btn header-btn" (click)="onDelete(financeSheet.id)"> <span class="align-text-middle glyphicon glyphicon-trash"></span> </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create a New Finance Sheet</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="onCreate(create); d('Submitted');" #create="ngForm">
+    <div class="modal-body">
+      <label>Sheet Name:</label><br />
+      <input name="name" class="form-control" ngModel required><br />
+
+      <label>Share With:</label><br />
+      <div class="input-group mb-3">
+        <input name="share" class="form-control" ngModel>
+        <div class="input-group-append">
+          <button type="button" class="input-group-text" (click)="onUserSearch(create)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button><br />
+        </div>
+      </div>
+
+      <div class="dropdown w-100" *ngIf="searchedUsersSelected == false">
+        <button class="btn btn-light w-100">Please Select User To Share With</button>
+        <div class="dropdown-content w-100">
+          <a class="dropdown-item" *ngFor="let User of searchedUsers" (click)="onUserClick(User)">{{User.username}}</a>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" *ngFor="let User of selectedUsers" (click)="removeUser(User)">
+        {{User.username}} <span class="glyphicon glyphicon-remove-sign"></span>
+      </button> <br />
+
+      <label>Starting Balance (£):</label><br />
+      <input name="balance" class="form-control" ngModel required><br />
+    </div>
+    <div class="modal-footer">
+      <button type="submit" [disabled]="create.invalid" class="btn btn-outline-dark">Save</button>
+    </div>
+  </form>
+</ng-template>
