@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -64,7 +65,20 @@ namespace HomeManagement.DAL
                 conn.Open();
                 var query = new SqlCommand("INSERT INTO [dbo].[FinanceReports] ([FinanceSheetId], [Rating], [Incomes], [Expenditures], [Goal], [Balance], [IncomeString], [ExpenditureString], [GoalString], [DateCreated]) " +
                                             "OUTPUT Inserted.ID " +
-                                          $"VALUES({report.FinanceSheetId}, {report.Rating}, '{JsonConvert.SerializeObject(report.Incomes)}', '{JsonConvert.SerializeObject(report.Expenditures)}', '{JsonConvert.SerializeObject(report.SavingGoals)}', {report.Balance}, '{report.IncomeString}', '{report.ExpenditureString}', '{report.GoalString}', CONVERT(datetime, '{report.DateCreated}', 103) )", conn);
+                                          $"VALUES({report.FinanceSheetId}, {report.Rating}, @incomes, @expenditures, @goals, {report.Balance}, @incomestr, @expenditurestr, @goalstr, CONVERT(datetime, '{report.DateCreated}', 103) )", conn);
+                query.Parameters.Add("@incomes", SqlDbType.NVarChar);
+                query.Parameters.Add("@expenditures", SqlDbType.NVarChar);
+                query.Parameters.Add("@goals", SqlDbType.NVarChar);
+                query.Parameters.Add("@incomestr", SqlDbType.NVarChar);
+                query.Parameters.Add("@expenditurestr", SqlDbType.NVarChar);
+                query.Parameters.Add("@goalstr", SqlDbType.NVarChar);
+
+                query.Parameters["@incomes"].Value = JsonConvert.SerializeObject(report.Incomes);
+                query.Parameters["@expenditures"].Value = JsonConvert.SerializeObject(report.Expenditures);
+                query.Parameters["@goals"].Value = JsonConvert.SerializeObject(report.SavingGoals);
+                query.Parameters["@incomestr"].Value = report.IncomeString;
+                query.Parameters["@expenditurestr"].Value = report.ExpenditureString;
+                query.Parameters["@goalstr"].Value = report.GoalString;
 
                 var reader = query.ExecuteReader();
                 reader.Read();
@@ -84,6 +98,9 @@ namespace HomeManagement.DAL
             report.Expenditures = GetAnnualExpenditureAmounts(sheet);
             report.SavingGoals = sheet.SavingGoals;
             report.Balance = sheet.Balance;
+            report.IncomeString = "";
+            report.ExpenditureString = "";
+            report.GoalString = "";
 
 
             decimal annualIncome = 0;

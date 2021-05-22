@@ -243,10 +243,23 @@ namespace HomeManagement.DAL
             foreach (SavingGoal goal in goals)
                 DeleteGoal(new List<int>() { goal.Id });
 
+            DeleteOwners(sheetId);
+
             using (var conn = new SqlConnection("Data Source=(localDB)\\MSSQLLOCALDB;Initial Catalog=HomeManagementDB;"))
             {
                 conn.Open();
-                var query = new SqlCommand($"DELETE FROM UserFinanceSheet WHERE FinanceSheets_Id = {sheetId}; DELETE FROM FinanceSheets WHERE Id = {sheetId};", conn);
+                var query = new SqlCommand($"DELETE FROM FinanceSheets WHERE Id = {sheetId};", conn);
+                var reader = query.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public static void DeleteOwners(int sheetId)
+        {
+            using (var conn = new SqlConnection("Data Source=(localDB)\\MSSQLLOCALDB;Initial Catalog=HomeManagementDB;"))
+            {
+                conn.Open();
+                var query = new SqlCommand($"DELETE FROM UserFinanceSheet WHERE FinanceSheets_Id = {sheetId};", conn);
                 var reader = query.ExecuteNonQuery();
                 conn.Close();
             }
